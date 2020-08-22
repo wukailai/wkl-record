@@ -1,0 +1,4 @@
+spring的controller默认是单例的，所以尽量不要使用非静态成员变量，也正因为单例，所以线程不安全；
+spring controller单例变多例实现：添加@Scope("prototype")；
+spring controller想使用线程私有变量解决方案：使用ThreadLocal；
+spring bean作用域枚举：1）singleton；2）prototype；3）request；4）session；5）global session；

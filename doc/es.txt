@@ -1,0 +1,12 @@
+es写流程：客户端（发送请求）->协调节点（对document路由转发）->对应node（有primary shard，primary shard处理请求并同步数据到replica node）->协调节点发现primary node和replica node均成功则返回结果给客户端；
+es读流程：客户端（发送请求）->协调节点（doc id hash操作，路由转发）->从primary shard和所有replica中随机选择一个（随机轮询）实现读操作负载均衡->返回document给协调节点->协调节点返回给客户端；
+es搜索流程（全文搜索）：客户端（发送请求）->协调节点（路由转发）->所有shard对应的primary shard或replica node->shard将搜索结果（doc id集合）返回给协调节点->协调节点合并、排序、分页 + 去各节点拉取document并返回客户端；
+es删除操作：doc标记为deleted状态，合并segment file的时候才会执行物理删除；
+总结：写操作是写入primary shard并同步到replica node，读操作则是采用随机轮询的策略从primary shard或者replica node读取；
+写操作执行细节：先写入内存buffer（buffer里面的数据搜索不到），每隔1s触发refresh（buffer写入到os cache，然后再写到segment file），buffer里面的数据每隔5秒写入到translog；
+translog达到一定阈值/每隔30分钟触发flush（缓冲区文件全部写入到segment file + 清空translog重启一个tanslog）；
+es是准实时的解释：写入的数据1秒后才可以看到；
+es宕机可能会有5秒钟的数据丢失；
+lucene：就是一个jar包，里面封装好了各种建立倒排索引的算法代码；
+es搜索引擎中，每个文档都有一个对应的文档ID，文档内容被表示为一系列关键词的集合，每个关键词都会记录它在文档中出现的次数和位置；
+倒排索引：关键词到文档ID的映射。特点：1）倒排索引中的所有词项对应一个或多个文档；2）倒排索引中的词项根据字典顺序升序排列；
