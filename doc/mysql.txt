@@ -1,0 +1,2 @@
+count(1)、count(字段)、count(*)的区别：count(1)、count(*)会算上null的记录，count(字段)不会算上null的记录；
+执行效率：count(主键列) > count(1) > count(非主键列) && count(*)；
