@@ -1,2 +1,7 @@
 count(1)、count(字段)、count(*)的区别：count(1)、count(*)会算上null的记录，count(字段)不会算上null的记录；
 执行效率：count(主键列) > count(1) > count(非主键列) && count(*)；
+mysql优化小手段：
+    1）使用exists、not exist代替in和not in；
+    2）尽量不使用like语句；
+    3）where条件中避免对字段进行函数操作；
+    4）允许脏读可以预防查询被更新事务阻塞；

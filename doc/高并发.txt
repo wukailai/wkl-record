@@ -1,0 +1,1 @@
+CompletableFuture.supplyAsync(Supplier<U>, executor)；

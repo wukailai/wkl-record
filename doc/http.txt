@@ -5,3 +5,7 @@ close_wait作用：ACK重发；
 方向代理Ngnix作用：1）负载均衡；2）安全控制；3）缓存静态文件；
 服务器在HTTP头里设置sessionId，客户端则将sessionId保存在cookie里面；
 分布式系统session保存方案：session存放在redis中；
+差错检测两种实现：1）奇偶校验；2）循环冗余校验；
+IP寻址流程：先找到网络号，然后通过ARP将IP地址转化成MAC地址进行查询；
+流量控制：动态控制发送端滑动窗口的大小；
+DHCP：动态分配IP地址；

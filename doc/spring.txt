@@ -2,3 +2,5 @@ spring的controller默认是单例的，所以尽量不要使用非静态成员�
 spring controller单例变多例实现：添加@Scope("prototype")；
 spring controller想使用线程私有变量解决方案：使用ThreadLocal；
 spring bean作用域枚举：1）singleton；2）prototype；3）request；4）session；5）global session；
+@EnableScheduling和@Scheduled注解实现定时任务，也可以通过SchedulingConfigurer接口来实现定时任务；
+动态实现增删启停定时任务--Quartz框架；
