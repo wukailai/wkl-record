@@ -1,0 +1,15 @@
+变量var，常量val；
+函数没有返回值用Unit，相当于java的void；
+取消静态的概念，改用单例对象Object来实现，Object对象对应于Java的静态类；
+字符串插值的时候，使用$符号修饰字符串，三引号可以包括任何字符而不需要转义；
+Scala类字段自动带有getter和setter方法；
+java使用*进行通配，scala使用_进行通配；
+当一个单例对象和某个类共享一个名称时，这个单例对象称之为伴生对象，类被称之为伴生类；
+case class相比较于class不同点：
+    1）初始化不用new；
+    2）默认实现了equals、hashcode方法，默认实现了serializable接口，自动从scala.Product中继承一些函数；
+    3）toString的实现更漂亮；
+    4）构造函数的参数都是public级别；
+    5）支持匹配模式；
+java集合转换成scala数据结构方法：asScala；
+_+_ 等价于(x + y) => x + y

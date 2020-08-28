@@ -1,0 +1,10 @@
+RDD（Resilient Distributed DataSet，弹性分布式数据集）：Spark中最基本的数据抽象；
+每一个RDD包含的数据被存储在系统的不同节点上。逻辑上我们可以将RDD理解成一个大的数组，数组中的每个元素就代表一个分区(Partition)；
+每个分区指向一个存储在内存或者硬盘中的数据块，这个数据块就是每个task计算出的数据块，它们可以分布在不同的节点上；
+RDD不可变只读；
+SparkContext：代表了与Spark节点的连接，可以创建RDD，一个线程只有一个SparkContext；
+SparkConf：一些配置信息；
+Partitioner：两种主流分区方式：1）Hash Partitioner；2）Range Partitioner；
+Dependencies：窄依赖（父RDD分区可以一一对应找到子RDD的分区）、宽依赖（父RDD分区可以被子RDD多个分区使用）；
+Storage Level：MEMORY_ONLY、MEMORY_AND_DISK、DISK_ONLY、MEMORY_ONLY_2、MEMORY_AND_DISK_2、DISK_ONLY_2（后缀2会建立副本）；
+reduceByKey：相同的key执行特定操作，实例reduceByKey((x, k) => (x + y))或者reduceByKey()作用：key相同的value相加；
