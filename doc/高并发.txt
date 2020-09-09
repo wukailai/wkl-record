@@ -1,1 +1,11 @@
 CompletableFuture.supplyAsync(Supplier<U>, executor)；
+线程相比较于进程的轻量级体现在创建和销毁成本更低；
+计算机访问速度：寄存器 > 高速缓存 > 主存 > 磁盘；
+java并发模型：
+    a）并行worker模型（juc采用）：两个进程Delegator和Work，Delegator负责接收客户端任务并把任务下发到Worker，
+Worker处理完任务后将处理结果返还给Delegator，Delegator汇总结果返回给客户端；
+    b）流水线并发模型，Worker完成全部工作一部分，完后一部分后将工作转交给下一个Worker；
+    c）Actor模型：定义了一系列系统组件应该如何动作和交互的通用规则；
+    d）Channel模型：Worker不直接通信（降低Worker之间的耦合性），而是通过Channel通信；
+    e）函数性并行模型：函数调用实现，消息的传递就是基于函数调用，ForkAndJoinPool采用；
+callable的call方法可以抛异常，Runnable的run方法却不能；

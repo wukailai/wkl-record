@@ -5,3 +5,9 @@ mysql优化小手段：
     2）尽量不使用like语句；
     3）where条件中避免对字段进行函数操作；
     4）允许脏读可以预防查询被更新事务阻塞；
+insert into table_a select * from table_b where condition > 1;隐患：table_a加表锁，table_b逐步锁（扫描一个锁一个，锁的数据越来越多）；
+解决办法：条件判断字段condition加索引，避免全表扫描而锁表；
+OLAP：仓库型数据库，主要是读取数据，做复杂的数据分析；
+OLTP：传统的关系型数据库，强调事务一致性；
+在where不满足条件的情况下，count(*)、sum(*)也有可能返回null；
+limit可以较大提升性能；
