@@ -1,0 +1,12 @@
+一个hive表包含多个hdfs文件；
+hive是基于Hadoop的一个数据仓库工具，可以将结构化的数据文件映射为一张数据库表，并提供简单的sql查询功能；
+运行hive sql等价于转换为MapReduce任务执行；
+hive四种数据导入方式：
+    a）从本地文件系统中导入数据到hive表；
+    b）从hdfs导入数据到hive表；
+    c）在创建hive表的时候通过从别的表中查询出相应的记录并插入到创建的hive表中；
+    d）从别的表中查询出相应的数据并导入到hive表中；
+insert into 与 insert overwrite区别：
+    1）都可以向hive表中插入数据，但是insert into直接追加到表中数据的尾部；
+    2）insert overwrite会重写数据，既先进行删除，再写入。如果存在分区的情况，insert overwrite会只重写当前分区数据；
+Hive适合来对一段时间内的数据进行分析查询，不应该用来做实时查询；

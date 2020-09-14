@@ -22,3 +22,4 @@ redis实现分布式锁逻辑：
         // 其他情况，一律返回加锁失败
         return false;
     }
+redis执行lua脚本是一个原子操作；

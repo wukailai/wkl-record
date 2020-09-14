@@ -1,0 +1,7 @@
+分布式存储的NoSQL数据库，不支持SQL；
+类似于Hive，HBase底层依赖HDFS来作为其物理存储；
+HBase：适合用来进行大数据的实时查询，需要借助Zookeeper的帮助，不直接支持SQL但提供了Java API接口；
+HBase集群中主要由Master（分配Region给Region Server）、Region Server以及Zookeeper组成；
+一个Region包含多个Store对象，一个Store包含一个MemStore（数据在内存中的实体，有序）、一个或者多个HFile，MemStore达到一定阈值，数据化会持久化到HFile，
+HFile都存储在HDFS中；
+更新操作都会被写入HLog（WAL）中；

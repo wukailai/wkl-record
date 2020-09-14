@@ -4,3 +4,6 @@ spring controller想使用线程私有变量解决方案：使用ThreadLocal；
 spring bean作用域枚举：1）singleton；2）prototype；3）request；4）session；5）global session；
 @EnableScheduling和@Scheduled注解实现定时任务，也可以通过SchedulingConfigurer接口来实现定时任务；
 动态实现增删启停定时任务--Quartz框架；
+spring validate支持分组检验（groups={xx.class}，方法层也标注@Validated(UserDTO.xx.class)，xx为DTO接口方法）：不同的方法接收相同的DTO，校验规则也不一样；
+@ExceptionHandler：可以用来通过一处理方法抛出来的异常；
+可以通过命令行、启动Application加注解的方式改变默认配置文件配置；

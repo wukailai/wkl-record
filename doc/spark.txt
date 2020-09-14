@@ -1,3 +1,5 @@
+spark：基于内存计算的大数据并行计算框架，采用DAG执行引擎；
+spark最大优势：将计算数据、中间结果都存储在内存中，大大减小了IO开销；
 RDD（Resilient Distributed DataSet，弹性分布式数据集）：Spark中最基本的数据抽象；
 每一个RDD包含的数据被存储在系统的不同节点上。逻辑上我们可以将RDD理解成一个大的数组，数组中的每个元素就代表一个分区(Partition)；
 每个分区指向一个存储在内存或者硬盘中的数据块，这个数据块就是每个task计算出的数据块，它们可以分布在不同的节点上；
@@ -8,3 +10,14 @@ Partitioner：两种主流分区方式：1）Hash Partitioner；2）Range Partit
 Dependencies：窄依赖（父RDD分区可以一一对应找到子RDD的分区）、宽依赖（父RDD分区可以被子RDD多个分区使用）；
 Storage Level：MEMORY_ONLY、MEMORY_AND_DISK、DISK_ONLY、MEMORY_ONLY_2、MEMORY_AND_DISK_2、DISK_ONLY_2（后缀2会建立副本）；
 reduceByKey：相同的key执行特定操作，实例reduceByKey((x, k) => (x + y))或者reduceByKey()作用：key相同的value相加；
+spark结构：
+    1）一个应用（application） = 一个控制节点(Driver)+多个作业（Job）；
+    2）一个作业 = 多个阶段（Stage）；
+    3）一个阶段 = 多个任务（Task）；
+    当执行一个应用时，Driver构建SparkContext，SparkContext会向集群管理器（监控+资源分配）申请运行Executor的资源，启动Executor，并向Executor发送应用程序
+    代码和文件，然后在Executor上执行任务，运行结束后，执行结果会返回给Driver或者写入到HDFS或者其他数据库中；
+spark.Executor：多线程实现，BlockingManager存储模块会将内存和磁盘共同作为存储设备，可存放中间结果进而减小IO；
+spark.DAG调度器：SparkContext根据RDD的依赖关系构建DAG图，DAG图提交给DAG调度器进行解析，将DAG图分解为多个stage并计算出各个stage之间的依赖关系，然后把stage提交给
+底层的任务调度器进行处理；
+Executor向SparkContext申请任务 = 任务调度器把任务分发给Executor + SparkContext将应用程序代码发放给Executor；
+每个应用都有自己专属的Executor进程，Executor以多线程的方式运行；
