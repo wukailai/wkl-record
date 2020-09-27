@@ -7,3 +7,5 @@ spring bean作用域枚举：1）singleton；2）prototype；3）request；4）s
 spring validate支持分组检验（groups={xx.class}，方法层也标注@Validated(UserDTO.xx.class)，xx为DTO接口方法）：不同的方法接收相同的DTO，校验规则也不一样；
 @ExceptionHandler：可以用来通过一处理方法抛出来的异常；
 可以通过命令行、启动Application加注解的方式改变默认配置文件配置；
+Spring框架的事务基础架构代码将默认地只在抛出Error或者unchecked exceptions时才标识事务回滚；
+@Transactional：使用在具体的类上，而不是接口上；

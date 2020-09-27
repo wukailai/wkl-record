@@ -12,3 +12,4 @@ OLTP：传统的关系型数据库，强调事务一致性；
 在where不满足条件的情况下，count(*)、sum(*)也有可能返回null；
 limit可以较大提升性能；
 linux连远端数据库（指定端口，非3306）指令：mysql -h ip -P port -u user -p password；
+mysql limit会让null最先显示；

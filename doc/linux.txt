@@ -1,0 +1,2 @@
+展示grep上下附近数据：cat test.txt | grep "a" -C 50；
+查看定时任务：crontab -l | grep ""；

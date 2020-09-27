@@ -10,3 +10,5 @@ insert into 与 insert overwrite区别：
     1）都可以向hive表中插入数据，但是insert into直接追加到表中数据的尾部；
     2）insert overwrite会重写数据，既先进行删除，再写入。如果存在分区的情况，insert overwrite会只重写当前分区数据；
 Hive适合来对一段时间内的数据进行分析查询，不应该用来做实时查询；
+hive：将结构化的数据映射为一张数据库表，并提供sql查询功能，sql语句（HQL）可以转化成MapReduce任务进行运行，不必开发专门的MapReduce应用；
+Parquet是一种面向列存存储的文件格式；

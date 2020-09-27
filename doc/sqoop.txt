@@ -1,0 +1,7 @@
+主要用于将mysql数据导入到HDFS；
+重要参数：
+    --delete-target-dir               如果目标存在则删除
+    --num-mappers 1                   指定使用导入数据的map个数
+    --fields-terminated-by ","        目标文件的分隔符，默认导入HDFS的每行数据分隔符是逗号
+    --compress                        启用压缩
+    --compression-codec               指定压缩类型，默认gzip
