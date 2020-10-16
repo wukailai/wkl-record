@@ -1,0 +1,4 @@
+quota限制分为两种：name quota和space quota；
+quota设置最大值是开区间，如果name quota设置最大值5（包含文件和文件夹），那么在创建第五个文件的时候就会报错；
+quota查看命令：hadoop fs -count -q -h -v 带集群目录 or hadoop --cluster 集群 fs -count -q -h -v 不带集群目录；
+none inf就是没有分配限额；

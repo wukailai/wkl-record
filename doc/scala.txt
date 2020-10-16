@@ -13,3 +13,8 @@ case class相比较于class不同点：
     5）支持匹配模式；
 java集合转换成scala数据结构方法：asScala；
 _+_ 等价于(x + y) => x + y
+::运算符：向列表头部添加元素:
+    实例a: List[String] = List(2, 3)
+    1::a = List(1, 2, 3)
+    b: List[String] = List("a", "b")
+    b::a = List(List("a", "b"), 2, 3)

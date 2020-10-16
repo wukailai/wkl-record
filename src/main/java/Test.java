@@ -14,5 +14,9 @@ public class Test {
         list2.add(3);
         List<Integer> allTableList = Stream.of(list1, list2).flatMap(Collection::stream).distinct().limit(3).collect(Collectors.toList());
         System.out.println(allTableList);
+        long a = 2;
+        long b = 3;
+        double c = (double) a / b;
+        System.out.println(c);
     }
 }
