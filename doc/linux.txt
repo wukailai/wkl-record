@@ -2,3 +2,4 @@
 查看定时任务：crontab -l | grep ""；
 extundelete工具在进程不存在的条件下可恢复linux系统上已删除的文件；
 lsof在进程存在的条件下可恢复linux系统上已删除的文件；
+查看所有用户的定时任务：for u in `cat /etc/passwd | cut -d":" -f1`;do crontab -l -u $u;done

@@ -1,1 +1,13 @@
-注解是不能被继承的；
+join：等待调用方执行完；
+注解不能被继承的；
+CompletableFuture实现了CompletionStage接口（代表一个特定的计算阶段）和Future接口；
+CompletableFuture cf = CompletableFuture.runAsync(() -> {
+        do something;（没有传executor参数的情况下，使用守护线程去执行任务）
+});
+or
+CompletableFuture cf = CompletableFuture.runAsync(() -> {
+        do something;
+}, executor);
+CompletableFuture方法：thenAccept、thenApply、thenApplyAsync、thenAccept（接收前一个阶段返回结果，返回类型void）等；
+CompletableFuture的cancel不是使用中断去取消操作；
+java使用StringBuilder对String中间的相连操作做了优化：每次会创建StringBuilder并将StringBuilder转化为String；
