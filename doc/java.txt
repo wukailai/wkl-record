@@ -11,3 +11,10 @@ CompletableFuture cf = CompletableFuture.runAsync(() -> {
 CompletableFuture方法：thenAccept、thenApply、thenApplyAsync、thenAccept（接收前一个阶段返回结果，返回类型void）等；
 CompletableFuture的cancel不是使用中断去取消操作；
 java使用StringBuilder对String中间的相连操作做了优化：每次会创建StringBuilder并将StringBuilder转化为String；
+Integer java类有一个私有变量IntegerCache，缓存了-128到127所有的整数对象，所有Integer a = 100, b = 100, a == b返回true，但是
+a = 1000, b = 1000, a == b返回false。Integer a = 100 <=> Integer a = Integer.valueOf(100),valueOf函数会用到缓存，目的是减少内存占用；
+通过反射获取变量值：
+    1）Field field = class.getDeclaredField("name");
+    2）Integer value = (Integer) field.get(如果是静态变量，既可以传object，也可以传class，如果是非静态变量只能传object)；
+>>>：高位统统补0；>>：正数高位补0，负数高位补1；
+1.8版本的HashMap查找的时候需要判断链表类型，Node还是TreeNode(Node的子类)；

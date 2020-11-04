@@ -1,0 +1,1 @@
+接口Mapper内的方法不可以重载：mybatis使用package+mapper+method全限名作为key（key=x.y.mapper.method）去对应xml内寻找唯一sql去执行；
