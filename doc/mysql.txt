@@ -5,13 +5,16 @@ mysql优化小手段：
     2）尽量不使用like语句；
     3）where条件中避免对字段进行函数操作；
     4）允许脏读可以预防查询被更新事务阻塞；
+    5）尽量少用text，非用不可最好分表处理（单独放入一张表）；
+    6）大语句拆小语句；
+    7）使用同类型进行比较，比如用'123'和'123'比，123和123比；
 insert into table_a select * from table_b where condition > 1;隐患：table_a加表锁，table_b逐步锁（扫描一个锁一个，锁的数据越来越多）；
 解决办法：条件判断字段condition加索引，避免全表扫描而锁表；
 OLAP：仓库型数据库，主要是读取数据，做复杂的数据分析；
 OLTP：传统的关系型数据库，强调事务一致性；
 在where不满足条件的情况下，count(*)、sum(*)也有可能返回null；
 limit可以较大提升性能；
-linux连远端数据库（指定端口，非3306）指令：mysql -h ip -P port -u user -p password；
+linux连远端数据库（指定端口，非3306）指令：mysql -hip -Pport -uuser -ppassword；
 mysql limit会让null最先显示；
 limit起始位置越大，速度越慢，优化思路：选择自增id作为列，记录上一次limit位置，从这个位置开始下一次的limit读取；
 select(*)效率低的原因：
@@ -27,3 +30,28 @@ select(*)效率低的原因：
 顺序写比随机写要快400倍；
 mysql redo日志：数据修改写入redo日志，这样即使宕机也可以快速恢复数据；
 顺序访问要比随机访问（IO次数会多很多）要快很多；
+not in：先计算子查询，再计算外查询，双层遍历做筛选；
+exists：遍历外查询，每次遍历判断内表是否符合匹配条件，符合则加入返回集合中；
+not in需要保证子查询的匹配字段是非空的，否则会返回空集合；
+exists返回的是一个Boolean值，不关心返回的具体数据是什么；
+select * from t1 where not exists (select name from t2 where t1.name=t2.name)可以优化为
+select * from t1 where not exists (select 1 from t2 where t1.name=t2.name)，因为1>column>*；
+select *会等价于查找所有字段；
+对于exists来说，外表总是会执行全扫描，不会走索引，外表应该选小表；
+不用null的原因：
+    1）很难做查询优化；
+    2）需占用额外的索引空间；
+避免在where后面进行null值判断，否则会导致引擎放弃使用索引；
+MyISAM支持全文索引，支持延迟更新索引，极大提升写入效率，InnoDB不支持全文索引；
+mysql数据最终是保存在数据页中的，物理日志记录的就是数据页的变更；
+WAL（Write-Ahead Logging）：先写日志，再写磁盘；
+二进制日志：binlog
+    1）记录数据库执行的写入性操作信息（就是sql语句），以追加的方式写入，以二进制的方式保存在磁盘中；
+    2）使用场景：主从复制（master向slave发送binlog）、数据恢复；
+    3）对于Innodb，只有事务提交时才会记录binlog；
+事务日志：
+    1）redo log；
+        a）记录了事务对数据页做了哪些修改；
+        b）分为两部分：内存中的日志缓冲和磁盘上的日志文件；
+    2）undo log；
+        a）记录了数据的逻辑变化，比如一条insert语句对应一条delete语句，回滚时使用；

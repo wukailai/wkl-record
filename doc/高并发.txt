@@ -9,3 +9,12 @@ Worker处理完任务后将处理结果返还给Delegator，Delegator汇总结�
     d）Channel模型：Worker不直接通信（降低Worker之间的耦合性），而是通过Channel通信；
     e）函数性并行模型：函数调用实现，消息的传递就是基于函数调用，ForkAndJoinPool采用；
 callable的call方法可以抛异常，Runnable的run方法却不能；
+秒杀系统设计要点：
+    1）url动态化（md5加密）；
+    2）秒杀页面静态化（访问秒杀页面不需要访问后端服务器，freemarker模板技术）；
+    3）秒杀数据库单独设计，防止秒杀系统对其他业务的影响；
+    4）单体redis升级为集群redis；
+    5）精简sql：select + update => update（update miaosha_goods set stock = stock-1 where goos_id = #{goods_id} and version = #{version} and sock>0），乐观锁的思想；
+    6）lua脚本结合redis可以实行原子操作；
+    7）前端限流，后端判定同一个用户xx秒内重复请求直接拒绝，redis实现；
+    8）令牌桶算法限流（每个请求尝试获取一个令牌，后端只处理持有令牌的请求，生产令牌的速度和效率我们都可以自己限定）；

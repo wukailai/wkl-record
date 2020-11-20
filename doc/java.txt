@@ -18,3 +18,4 @@ a = 1000, b = 1000, a == b返回false。Integer a = 100 <=> Integer a = Integer.
     2）Integer value = (Integer) field.get(如果是静态变量，既可以传object，也可以传class，如果是非静态变量只能传object)；
 >>>：高位统统补0；>>：正数高位补0，负数高位补1；
 1.8版本的HashMap查找的时候需要判断链表类型，Node还是TreeNode(Node的子类)；
+Function.apply(参数)执行方法操作；例子：Function function = Integer::parseInt int i = function.apply("123");
