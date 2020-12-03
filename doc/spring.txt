@@ -14,3 +14,18 @@ spring boot优点：
     2）提供默认配置简化项目配置；
     3）内嵌式容器简化Web项目；
     4）没有冗余代码生成和XML配置的要求；
+@SpringBootApplication=@Configuration & @EnableAutoConfiguration & @ComponentScan只能扫描启动类同包或子包的Bean；
+Spring如何实现AOP？
+AnnotationAwareAspectJAutoProxyCreator是AOP核心处理类
+AnnotationAwareAspectJAutoProxyCreator实现了BeanProcessor，其中postProcessAfterInitialization是核心方法；
+核心实现分为2步：
+    1）getAdvicesAndAdvisorsForBean获取当前bean匹配的增强器；
+    2）createProxy为当前bean创建代理；
+getAdvicesAndAdvisorsForBean核心逻辑如下：
+    a. 找所有增强器，也就是所有@Aspect注解的Bean；
+    b. 找匹配的增强器，也就是根据@Before，@After等注解上的表达式，与当前bean进行匹配，暴露匹配上的；
+    c. 对匹配的增强器进行扩展和排序，就是按照@Order或者PriorityOrdered的getOrder的数据值进行排序，越小的越靠前；
+createProxy有2种创建方法，JDK代理或CGLIB：
+    a. 如果设置了proxyTargetClass=true，一定是CGLIB代理；
+    b. 如果proxyTargetClass=false，目标对象实现了接口，走JDK代理；
+    c. 如果没有实现接口，走CGLIB代理；
