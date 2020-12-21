@@ -29,3 +29,5 @@ createProxy有2种创建方法，JDK代理或CGLIB：
     a. 如果设置了proxyTargetClass=true，一定是CGLIB代理；
     b. 如果proxyTargetClass=false，目标对象实现了接口，走JDK代理；
     c. 如果没有实现接口，走CGLIB代理；
+SpringContext：在初始化应用上下文时就实例化所有单实例的Bean；
+BeanFactory：BeanFactory在初始化容器时，并未实例化Bean；

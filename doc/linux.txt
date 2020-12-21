@@ -3,3 +3,13 @@
 extundelete工具在进程不存在的条件下可恢复linux系统上已删除的文件；
 lsof在进程存在的条件下可恢复linux系统上已删除的文件；
 查看所有用户的定时任务：for u in `cat /etc/passwd | cut -d":" -f1`;do crontab -l -u $u;done
+df命令：显示磁盘使用情况；
+top：显示进程资源占用情况；
+free：显示内存使用情况；
+top -H -p pid：查看进程的所有线程占用内存和CPU情况；
+将线程id转换成16进制的数，然后执行jstack pid | grep 'nid' -C5
+jstat -gc pid (采样间隔，单位毫秒，选填)查看进程GC状态；
+jmap导出dump文件：jmap -dump:format=b,file=filename pid
+查看类占用空间：jmap -histo pid
+查看堆内存使用情况：jmap -heap pid
+堆外内存溢出往往是和NIO的使用相关；

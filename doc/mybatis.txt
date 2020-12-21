@@ -1,1 +1,4 @@
 接口Mapper内的方法不可以重载：mybatis使用package+mapper+method全限名作为key（key=x.y.mapper.method）去对应xml内寻找唯一sql去执行；
+使用#{}时，mybatis会自动生成PreparedStatement，使用参数绑定?的方式设置值，因此可以有效防止SQL注入；
+使用${}时，MyBatis会直接注入原始字符串，有可能导致SQL注入；
+防止SQL注入：不要使用${}，不要拼接SQL语句，使用占位符传递参数，对传参进行校验；

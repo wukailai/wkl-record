@@ -19,3 +19,7 @@ a = 1000, b = 1000, a == b返回false。Integer a = 100 <=> Integer a = Integer.
 >>>：高位统统补0；>>：正数高位补0，负数高位补1；
 1.8版本的HashMap查找的时候需要判断链表类型，Node还是TreeNode(Node的子类)；
 Function.apply(参数)执行方法操作；例子：Function function = Integer::parseInt int i = function.apply("123");
+Optional处理null方式：如果对象为空，返回一个单例空Optional对象；
+java.lang.OutOfMemoryError: unable to create new native thread：线程数过多，线程占用的是非JVM内存，
+    1）所有在总内存一定的情况下，减小JVM内存分配可以解决这个问题；
+    2）XSS参数调整单个线程占用内存大小；
