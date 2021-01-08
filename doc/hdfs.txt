@@ -9,3 +9,36 @@ quota修改配置命令：
 quota清除命令：
     clrQuota/clrSpaceQuota；
 none inf就是没有分配限额；
+HDFS缺点：
+    1）不适合低延时的数据访问，追求高吞吐数据传输而牺牲延时；
+    2）不支持文件offset修改，不支持多个写入器；
+Block抽象：
+    1）基于磁盘Block（512B）的抽象，默认大小128MB；
+    2）文件Block可以分布在整个集群；
+    3）以Block为单位进行复制；
+HDFS：
+    1）Namenode：负责构建命名空间，管理文件的元数据；
+    2）Datanode：负责实际存储数据，负责读写工作；
+    3）Datanode周期性向Namenode汇报自己节点上所存储的Block相关信息；
+    4）DataNode通常直接从磁盘读取数据，但是频繁使用的Block可以在内存中缓存；
+    5）作业调度器可以利用缓存提升性能，例如MapReduce可以把任务运行在有Block缓存的节点上；
+    6）采用HA的HDFS集群配置两个NameNode，分别处于Active和Standby状态。当Active NameNode故障之后，Standby接过责任继续提供服务，
+    用户没有明显的中断感觉。一般耗时在几十秒到数分钟；
+    7）Hadoop节点距离：节点跳数；
+Namenode有可能成为集群的单点故障，Namenode不可用时，整个文件系统是不可用的，解决方案有：
+    1）备份持久化元数据；
+    2）Secondary Namenode；
+读流程：
+    1）客户端传递文件path给DistributedFileSystem的open方法；
+    2）从Namenode获取文件Block地址；
+    3）open方法返回FSDataInputStream读取数据；
+    4）从Datanode读取Block数据；
+    5）第一个Block读取完毕，寻找下一个Block的最佳Datanode；
+    6）客户端FileSystem close；
+写流程：
+    1）客户端调用DistributedFileSystem的create方法；
+    2）调用Namenode在文件系统的命名空间中创建一个新文件；
+    3）create方法返回FSDataOutputStream写入数据；
+    4）数据写入数据队列，队列由DataStreamer消费；
+    5）DateStreamer负责请求Namenode分配新的block存放的数据节点，并写入数据；
+    6）客户端close输出流；
