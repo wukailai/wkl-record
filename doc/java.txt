@@ -23,3 +23,4 @@ Optional处理null方式：如果对象为空，返回一个单例空Optional对
 java.lang.OutOfMemoryError: unable to create new native thread：线程数过多，线程占用的是非JVM内存，
     1）所有在总内存一定的情况下，减小JVM内存分配可以解决这个问题；
     2）XSS参数调整单个线程占用内存大小；
+大对象：由-XX:PretenureSizeThreshold启动参数控制，若对象大小大于此值，就会绕过新生代，直接在老年代中分配；
