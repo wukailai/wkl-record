@@ -25,3 +25,5 @@ java.lang.OutOfMemoryError: unable to create new native thread：线程数过多
     2）XSS参数调整单个线程占用内存大小；
 大对象：由-XX:PretenureSizeThreshold启动参数控制，若对象大小大于此值，就会绕过新生代，直接在老年代中分配；
 stream优势：并行stream（非线程安全）具有效率优势；
+GBK：英文一个字符，中文两个字符（如果在中文网站，选择GBK可以节省空间）；
+UTF-8：1-4个字符；

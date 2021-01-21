@@ -16,3 +16,15 @@ SSL证书由权威机构颁发，服务器想要使用SSL的话需要通过权�
 大多数浏览器限定url2K字节，服务器最多处理64K大小的url；
 GET产生一个TCP数据包，POST产生两个TCP数据包；
 预防SYN攻击方式：1）缩短超时、2）增加最大半连接数；3）cookie技术；4）网关过滤；
+cookie（键值对数据格式）不可跨域，但是可以通过domain（指定cookie所属域名）实现一级域名和二级域名之间共享cookie；
+session基于cookie实现，sessionId会被存储在cookie中；
+token（有签名，可存放于cookie中，发送给服务器时存放于Header中，服务器不存放token，移动端用的多）：访问资源接口（API）时所需要的资源凭证；
+JWT（与token一样，都是访问资源的令牌，都使服务器无状态化，jwt可以存储额外信息，减少服务器查询数据库）：不需要担心跨域资源共享问题，
+    1）放在HTTP请求头信息的Authorization字段里；
+    2）放在post请求的数据体里面；
+    3）get请求url参数里面；
+分布式session解决方案：
+    1）session复制；
+    2）绑定策略，ip进行hash，固定ip的session存储在指定机器上；
+    3）session共享（redis）；
+    4）session持久化；

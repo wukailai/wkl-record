@@ -31,3 +31,6 @@ createProxy有2种创建方法，JDK代理或CGLIB：
     c. 如果没有实现接口，走CGLIB代理；
 SpringContext：在初始化应用上下文时就实例化所有单实例的Bean；
 BeanFactory：BeanFactory在初始化容器时，并未实例化Bean；
+Aspect：声明注解类；
+Pointcut：定义切点；
+@before、@After：通知注解；
