@@ -32,7 +32,9 @@ mysql redo日志：数据修改写入redo日志，这样即使宕机也可以快
 顺序访问要比随机访问（IO次数会多很多）要快很多；
 not in：先计算子查询，再计算外查询，双层遍历做筛选；
 exists：遍历外查询，每次遍历判断内表是否符合匹配条件，符合则加入返回集合中；
-not in需要保证子查询的匹配字段是非空的，否则会返回空集合；
+not in需要保证子查询的匹配字段都是非空的，否则会返回空集合；
+not in对内外表都需要扫描，没有用到索引；
+in适合外表大、内表小，exists适合外表小、内表大；
 exists返回的是一个Boolean值，不关心返回的具体数据是什么；
 select * from t1 where not exists (select name from t2 where t1.name=t2.name)可以优化为
 select * from t1 where not exists (select 1 from t2 where t1.name=t2.name)，因为1>column>*；
