@@ -28,3 +28,4 @@ JWT（与token一样，都是访问资源的令牌，都使服务器无状态化
     2）绑定策略，ip进行hash，固定ip的session存储在指定机器上；
     3）session共享（redis）；
     4）session持久化；
+JWT = HEADER（记录元数据信息，如签名算法、令牌类型） + PAYLOAD（标准声明、公共声明、私有声明） + SIGNATURE（对前面两部分的签名，防止数据篡改）；
