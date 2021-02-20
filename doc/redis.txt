@@ -32,3 +32,4 @@ redis快速恢复：master-slave+哨兵模式，恢复好坏取决于提升maste
 redis的zset是一个有序集合，每一个元素(member)都关联了一个score,通过score排序来取集合中的值；
 Redis不能确保key在指定时间被删除；
 Redis过期监听：超时失效key的监听触发，可用于实现延时事件；
+Redis实例默认建立了16个db，Redis集群下只有db0，不支持多db；

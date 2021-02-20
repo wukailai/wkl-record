@@ -78,3 +78,6 @@ delete会将所有涉及的行加写锁和Gap锁（where字段加了索引的情
 DELETE：假删除，仅仅给被删除数据打上已删除标记，因此磁盘存储空间不会被释放（除非使用optimize table table_name），下次插入数据时，可重用已删除空间；
 TRUNCATE：不走事务；不触发trigger，立刻释放磁盘空间，执行后数据无法找回，等价于drop + create操作，会重置auto_increment；
 drop：立即释放磁盘空间，执行后数据无法找回；
+适合加索引的字段：where后面、order by后面（避免额外的排序）、group by后面（利用索引完成分组）、多表连接关联字段；
+explain：查看是通过索引还是全局扫描，连接查询的实现方式和连接的顺序；
+offset 大数字会严重影响查询性能；优化：记住上一次查询最大主键id，后续查询用where实现；
