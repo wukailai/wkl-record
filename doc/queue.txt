@@ -24,7 +24,7 @@ Kafka：
     分区设置太大的弊端：延时增加；
     kafka保证数据可靠性：
         1）分区数据备份，数据同步；
-        2）ISR：同步副本，和leader保持同步的follower动态集合（如果follower长时间未向leader同步数据，踢出ISR，ISR也可以作为选举leader的候选集合）。当ISR中的follower完成数据的同步之后，leader就会给生产者发送ack；
+        2）ISR：同步副本，和leader保持同步的follower动态集合（如果follower（主动从leader拉数据）长时间未向leader同步数据，踢出ISR，ISR也可以作为选举leader的候选集合）。当ISR中的follower完成数据的同步之后，leader就会给生产者发送ack；
         3）ACK机制：producer收到ack（ack=0：生产者消息发出去就算成功，ack=1：Leader ack，ack=all：leader+follower全部ack），就会进行下一轮的发送，否则重新发送数据；
     producer处理此类故障所采取的提交策略类型：
         1）at-least-once（重复的消息重试写入kafka）；
