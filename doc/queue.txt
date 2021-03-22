@@ -16,3 +16,17 @@ RabbitMQ：
 
 Kafka：
     概念同RocketMQ，只不过RocketMQ中的队列在kafka里面叫分区；
+    offset可能是消费者批量处理后才提交到zk，重启后再消费时就可能会收到重复消息；
+    生产消息阶段处理消息丢失方式：消息发送后，回调消息发送成功或者失败的接口。那么业务层面也就可以根据是否发送成功和失败做处理，
+    比如发送前缓存到redis，发送成功后从redis中移除，对于在redis中一直没有处理的，再进行重发操作；
+    消费消息阶段处理消息丢失方式：取消autoACK，业务逻辑处理完后手动ACK；
+    解决消息积压的方式：修复consumer故障（如果有的话），新建topic，增加分区数量，消息写入新的topic，消费新topic的consumer的数量也应该增加；
+    分区设置太大的弊端：延时增加；
+    kafka保证数据可靠性：
+        1）分区数据备份，数据同步；
+        2）ISR：同步副本，和leader保持同步的follower动态集合（如果follower长时间未向leader同步数据，踢出ISR，ISR也可以作为选举leader的候选集合）。当ISR中的follower完成数据的同步之后，leader就会给生产者发送ack；
+        3）ACK机制：producer收到ack（ack=0：生产者消息发出去就算成功，ack=1：Leader ack，ack=all：leader+follower全部ack），就会进行下一轮的发送，否则重新发送数据；
+    producer处理此类故障所采取的提交策略类型：
+        1）at-least-once（重复的消息重试写入kafka）；
+        2）at-most-once（不重试，消息丢失）；
+        3）exactly-once（最理想，采用上面的redis方案）；
