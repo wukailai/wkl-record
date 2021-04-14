@@ -21,7 +21,7 @@ Kafka：
     比如发送前缓存到redis，发送成功后从redis中移除，对于在redis中一直没有处理的，再进行重发操作；
     消费消息阶段处理消息丢失方式：取消autoACK，业务逻辑处理完后手动ACK；
     解决消息积压的方式：修复consumer故障（如果有的话），新建topic，增加分区数量，消息写入新的topic，消费新topic的consumer的数量也应该增加；
-    分区设置太大的弊端：延时增加；
+    分区设置太大的弊端：占内存，占文件句柄，broker一旦挂掉，增加选举耗时；
     消息的状态由Consumer控制，即offset值由consumer来维护；
     kafka副本指的是partition副本，并且只有一个partition会被选择为leader；
     kafka保证数据可靠性：
