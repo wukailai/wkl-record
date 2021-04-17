@@ -2,3 +2,15 @@
 使用#{}时，mybatis会自动生成PreparedStatement，使用参数绑定?的方式设置值，因此可以有效防止SQL注入；
 使用${}时，MyBatis会直接注入原始字符串，有可能导致SQL注入；
 防止SQL注入：不要使用${}，不要拼接SQL语句，使用占位符传递参数，对传参进行校验；
+mybatis二级缓存：
+    1）事务级别的缓存：只有创建事务才会有，在sqlSession（每个事务开始会开启一个sqlSession，事务执行结束关闭sqlSession）中的Executor中缓存；
+    2）mapper级别的缓存，作用域为namespace（每一个xml mapper都有一个namespace）；
+判定是否为同一个查询：
+    1）xml mapper文件id一样；
+    2）预编译sql一样；
+    3）参数一样；
+缓存原理：以以上三个要素组成联合主键，查询结果为value缓存在hashmap里面；
+遇到修改语句，如update、insert、delete，则会清空缓存；
+缓存数据结构：CachingExecutor和Executor都在sqlSession中
+                CachingExecutor   ->      Executor
+                二级缓存                    一级缓存
