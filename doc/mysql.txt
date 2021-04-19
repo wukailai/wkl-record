@@ -131,3 +131,4 @@ select后面带for update表示排它锁；
     1）共享锁，读锁，防止其他事务拿改行数据的排他锁；
     2）排他锁，写锁，防止其他事务拿改行数据的排他锁和共享锁；
 查看mysql数据库锁的效率：show status like "innodb_row_lock%";
+explain查看索引是否命中：key + rows；
