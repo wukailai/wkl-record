@@ -67,3 +67,12 @@ redis单线程：一个线程处理所有的网络请求；
 redis主从复制：
     1）全量同步：slave初始化阶段，slave向master发送SYNC命令，master执行BGSAVE命令生成RDB文件并记录所有写命令到缓存，RDB同步+缓存写命令同步；
     2）增量同步：slave正常工作后，主服务器每执行一个写命令就会向从服务器发送相同的写命令；
+redis大key解决方案：
+    1）读写超时；
+    2）删除或者自动过期时，出现qps突降或者突升的情况，极端情况下，会造成主从复制异常；
+redis大key解决方案：
+    1）单个value很大：
+        a）如果整取，分拆成多个key-value，用multiGet获取值，业务层做合并；
+        b）对象拆分存入hash；
+    2）集合（hash、set、zset、list）元素过多：
+        a）rehash，newHashKey=hashKey + (hash(field) % 10000）；
