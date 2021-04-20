@@ -21,3 +21,10 @@ spark.DAG调度器：SparkContext根据RDD的依赖关系构建DAG图，DAG图�
 底层的任务调度器进行处理；
 Executor向SparkContext申请任务 = 任务调度器把任务分发给Executor + SparkContext将应用程序代码发放给Executor；
 每个应用都有自己专属的Executor进程，Executor以多线程的方式运行；
+造成数据倾斜的原因：groupBy、join（a表key数目100，b表key数目100，join之后新表key数目100*100）；
+数据倾斜后果：某几台机器执行慢拖慢整个计算速度、甚至OOM；
+数据倾斜解决方案：
+    1）过滤异常key；
+    2）提高shuffle并行度；
+    3）自定义Partitioner（自定义数据分配规则）；
+    4）key添加前缀，实现局部聚合+全局聚合；
