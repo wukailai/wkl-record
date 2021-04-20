@@ -137,8 +137,6 @@ select后面带for update表示排它锁；
     2）排他锁，写锁，防止其他事务拿改行数据的排他锁和共享锁；
 查看mysql数据库锁的效率：show status like "innodb_row_lock%";
 explain查看索引是否命中：key + rows；
-
-查看mysql数据库锁的效率：show status like "innodb_row_lock%"；
 mysql8.0版本取消了查询缓存；
 binlog三种模式：
     1）statement模式：记录引起数据变动的sql，优点是内存和IO消耗都很低，缺点是对随机函数（uuid()）不友好；
