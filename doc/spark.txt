@@ -28,3 +28,8 @@ Executor向SparkContext申请任务 = 任务调度器把任务分发给Executor 
     2）提高shuffle并行度；
     3）自定义Partitioner（自定义数据分配规则）；
     4）key添加前缀，实现局部聚合+全局聚合；
+spark在DAG调度中需要对计算过程划分Stage，而划分的依据就是就是RDD之间的依赖关系
+依赖关系：
+    1）窄依赖，父RDD的每一个分区只被子RDD的一个分区使用，一对一的关系，如map、filter操作；
+    2）宽依赖，也称shuffle依赖，父RDD的每个分区都可能被多个子RDD分区使用，一个子RDD分区通常对应所有的父RDD分区，如groupByKey操作；
+宽依赖需要将同一个父RDD的分区传入到不同的子RDD分区中，窄依赖只需要将一个父RDD的分区传入到一个子RDD分区中，所以如果发生RDD丢失，重新计算时，窄依赖只需要计算父分区RDD，极端情况下，宽依赖需要计算所有父分区RDD；
