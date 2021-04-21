@@ -163,6 +163,6 @@ MVCC：行版本号 <= 当前事务 < 删除版本号（为null未指定也可�
 explain查询结果分析：
     1、key（查看有没有使用索引） ；
     2、key_len（查看索引使用是否充分）；
-    3、type（查看索引类型） ；
+    3、type（查看索引类型，为ref走了索引，all没有走索引） ；
     4、Extra（查看附加信息：排序、临时表、where条件为false等）；
 流行的分库分表工具：Mycat和sharding-sphere；
