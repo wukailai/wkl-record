@@ -37,3 +37,7 @@ Kafka：
         2）消费组订阅的Topic变动；
         3）消费组订阅Topic的分区发生了变化；
     producer将消息推送到broker，consumer从broker拉取消息（consumer消费速率不确定，避免consumer崩溃）；
+    kafka消息丢失的情况：
+        1）消费端自动提交offersets设置为true，分区offset更新，消费者挂了。解决方案：consumer手动提交；
+        2）尚未写入磁盘（异步批量化写入磁盘），数据丢失。生产者重试机制，这是合理的重试间隔；
+        3）磁盘数据丢失。解决方案：多个副本保证数据完整性；
