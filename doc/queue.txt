@@ -32,3 +32,8 @@ Kafka：
         1）at-least-once（重复的消息重试写入kafka）；
         2）at-most-once（不重试，消息丢失）；
         3）exactly-once（最理想，采用上面的redis方案）；
+    kafka Rebalance：给消费组分配分区的过程，因此触发Rebalance的事件有：
+        1）消费组变动，比如有新消费者加入或者有消费者离开组；
+        2）消费组订阅的Topic变动；
+        3）消费组订阅Topic的分区发生了变化；
+    producer将消息推送到broker，consumer从broker拉取消息（consumer消费速率不确定，避免consumer崩溃）；
