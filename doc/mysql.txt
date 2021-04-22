@@ -166,3 +166,8 @@ explain查询结果分析：
     3、type（查看索引类型，为ref走了索引，all没有走索引） ；
     4、Extra（查看附加信息：排序、临时表、where条件为false等）；
 流行的分库分表工具：Mycat和sharding-sphere；
+mvcc read view：
+    1、creator_trx_id:当前事务id；
+    2、m_ids:所有事务的事务id；
+    3、min_trx_id:m_ids里最小的事务id值；
+    4、max_trx_id:m_ids里最大的事务id值；
