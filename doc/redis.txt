@@ -79,6 +79,10 @@ redis大key解决方案：
 redis事务实现：multi开始事务，exec执行事务；
 redis string底层数据结构：动态字符串；
 redis list底层数据结构：链表；
-redis zset底层数据结构：跳表；
+redis zset底层数据结构：跳表或者ziplist（数量小于128）；
 redis hash底层数据结构：压缩列表（ziplist，数据量较小、数量较小时采用）或者hashtable；
 redis set底层数据结构：intset或者hashtable；
+redis管道技术可以在服务端未响应时，客户端可以继续向服务端发送请求，并最终一次性读取所有服务端的响应；
+redis热key：
+    1）jvm二级缓存；
+    2）热key备份，key在多个redis上都存一份不就好了，减小单台服务器压力；
