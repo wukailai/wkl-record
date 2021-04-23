@@ -5,3 +5,4 @@
 查看本地分支关联远端：git branch -vv；
 剪切指定合并到分支：1）git log查看提交hash；2）git cherry-pick 指定hash1 指定hash2；
 已存在的分支直接git checkout branch_name；
+还原到指定分支（等同于清空暂存区和工作区）：git reset --hard origin/branch_name；
