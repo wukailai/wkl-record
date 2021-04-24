@@ -9,3 +9,4 @@ spring cloud通过rest接口通信，dubbo则通过RPC远程调用进行通信�
     6）白黑名单
     7）数据预处理
 著名网关：Zuul、Kong等等
+脑裂问题：网络问题造成服务器分区隔离；
