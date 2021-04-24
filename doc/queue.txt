@@ -1,3 +1,5 @@
+MQ作用：系统解偶、异步通知、流量削峰；
+
 RabbitMQ：
     队列模型和发布-订阅模型最大的区别就是：一份消息数据能不能被消费多次；
     现代消息队列产品大多使用发布-订阅的消息模型，但RabbitMQ是个例外，依然坚持使用队列消息模型；
@@ -38,6 +40,9 @@ Kafka：
         3）消费组订阅Topic的分区发生了变化；
     producer将消息推送到broker，consumer从broker拉取消息（consumer消费速率不确定，避免consumer崩溃）；
     kafka消息丢失的情况：
-        1）消费端自动提交offersets设置为true，分区offset更新，消费者挂了。解决方案：consumer手动提交；
+        1）消费端自动提交offersets设置为true，分区offset更新，消费者挂了。解决方案：consumer手动提交，但是有可能会引入重复消费的问题；
         2）尚未写入磁盘（异步批量化写入磁盘），数据丢失。生产者重试机制，这是合理的重试间隔；
         3）磁盘数据丢失。解决方案：多个副本保证数据完整性；
+        4）生产端消费丢失：调用producer.send(msg, callback)，callback删除redis缓存+重试机制，重试间隔不要太短；
+        5）调参解决：发送成功判定ack=all、replication.factor=n指定多个副本写入成功、ack=1，leader写入成功即可、ack=0，消息发出去即可；
+    kafka 0.10版本以后，生产者把消息先写入缓存，另起Sender线程从缓存里面批量取消息（可设置大小，如果一直达不到设置大小，定时发送），然后批量发送；
