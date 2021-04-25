@@ -167,10 +167,9 @@ explain查询结果分析：
     4、Extra（查看附加信息：排序、临时表、where条件为false等）；
 流行的分库分表工具：Mycat和sharding-sphere；
 mvcc read view：
-    1、creator_trx_id:当前事务id；
-    2、m_ids:所有事务的事务id；
-    3、min_trx_id:m_ids里最小的事务id值；
-    4、max_trx_id:m_ids里最大的事务id值；
+    1、m_ids:所有未提交事务id的集合；
+    2、最小事务id；
+    3、最大事务id；
 慢日志查，通过2定位到的日志去cat：
     1、slow_query_log 慢查询开启状态
     2、slow_query_log_file 慢查询日志存放的位置（这个目录需要MySQL的运行帐号的可写权限，一般设置为MySQL的数据存放目录）
