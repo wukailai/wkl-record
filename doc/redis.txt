@@ -23,6 +23,7 @@ redis实现分布式锁逻辑：
         return false;
     }
 redis执行lua脚本是一个原子操作；
+redis getSet方法可以实现CAS；
 redis快速恢复：master-slave+哨兵模式，恢复好坏取决于提升master的延迟
 哨兵（一组哨兵节点，一台机器去检测并不准确，需要多节点同时去检测（节点数为奇数），保证可靠性）：对redis实例进行监控、通知、自动故障转移；
 哨兵工作流程：状态感知、心跳检测、选举哨兵领导者、选举新的master、故障恢复、客户端感知新master；
@@ -89,3 +90,7 @@ redis热key：
 redis zset底层跳表不同点？
 redis lru具体实现？
 rdb持久化：fork子进程定时执行，写入二进制文件，属于快照数据，RDB可能会丢数据；
+redis列表实现消息队列
+    1）阻塞方式：blPop/brPop阻塞式读取第一个/最后一个元素；
+    2）非阻塞方式：lPop/rPop非阻塞式读取第一个/最后一个元素；
+    3）Push替代Pop，添加元素；

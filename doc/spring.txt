@@ -47,3 +47,8 @@ spring实例化一个bean分两步：实例化目标bean+注入属性；
 那么通过这个工厂获取到的就是A代理后的对象，如果A没有被AOP代理，那么这个工厂获取到的就是A实例化的对象；
 spring重试策略：@Retryable；
 BeanFactory使用时创建Bean，ApplicationContext启动时创建所有的Bean；
+SpringBootApplication：
+    SpringBootConfiguration
+        Configuration
+    EnableAutoConfiguration
+    ComponentScan
