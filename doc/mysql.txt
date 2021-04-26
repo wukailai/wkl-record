@@ -37,7 +37,7 @@ select(*)效率低的原因：
 主键自增缺点：
     1）不安全；
     2）高并发场景下锁竞争；
-顺序写比随机写要快400倍；
+顺序写比随机写要快400倍，原因：随机磁盘访问要寻道，所以比较慢，顺序访问不用每次都寻道，所以非常快；
 mysql redo日志：数据修改写入redo日志，这样即使宕机也可以快速恢复数据；
 顺序访问要比随机访问（IO次数会多很多）要快很多；
 not in：先计算子查询，再计算外查询，双层遍历做筛选；
@@ -57,7 +57,7 @@ select *会等价于查找所有字段；
 MyISAM支持全文索引，支持延迟更新索引，极大提升写入效率，InnoDB不支持全文索引；
 mysql数据最终是保存在数据页中的，物理日志记录的就是数据页的变更；
 WAL（Write-Ahead Logging）：先写日志，再写磁盘；
-二进制日志：binlog
+二进制日志：binlog（顺序写，所以效率很高）
     1）记录数据库执行的写入性操作信息（就是sql语句），以追加的方式写入，以二进制的方式保存在磁盘中；
     2）使用场景：主从复制（master向slave发送binlog）、数据恢复；
     3）对于Innodb，只有事务提交时才会记录binlog；
@@ -174,3 +174,8 @@ mvcc read view：
     2、slow_query_log_file 慢查询日志存放的位置（这个目录需要MySQL的运行帐号的可写权限，一般设置为MySQL的数据存放目录）
     3、long_query_time 查询超过多少秒才记录
 查看mysql锁效率：show status like "innodb_row_lock%"；
+产生主从延时原因：从服务器IO线程、SQL线程都是单线程，有较大DDL、DML（比如执行时间10分钟）SQL单线程执行就会造成主从延时；
+产生主从延时解决方案：从服务器sync_binlog设置为0，甚至关闭binlog；
+sync_binlog：
+    1）为0，FileSystem自行决定binlog_cache刷入磁盘；
+    2）为n（n=1效率最高），每进行n次事务提交之后，binlog_cache刷入磁盘；

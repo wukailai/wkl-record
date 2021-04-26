@@ -26,9 +26,10 @@ Kafka：
     分区设置太大的弊端：占内存，占文件句柄，broker一旦挂掉，增加选举耗时；
     消息的状态由Consumer控制，即offset值由consumer来维护；
     kafka副本指的是partition副本，并且只有一个partition会被选择为leader；
+    kafka所有的读写操作均由leader处理，跟consumer一样，所有follower都从leader那里拉取日志；
     kafka保证数据可靠性：
         1）分区数据备份，数据同步；
-        2）ISR：同步副本，和leader保持同步的follower动态集合（如果follower（主动从leader拉数据）长时间未向leader同步数据，踢出ISR，ISR也可以作为选举leader的候选集合）。当ISR中的follower完成数据的同步之后，leader就会给生产者发送ack；
+        2）ISR（ISR中的所有follower都与leader保持高度一致）：同步副本，和leader保持同步的follower动态集合（如果follower（主动从leader拉数据）长时间未向leader同步数据，踢出ISR，ISR也可以作为选举leader的候选集合）。当ISR中的follower完成数据的同步之后，leader就会给生产者发送ack；
         3）ACK机制：producer收到ack（ack=0：生产者消息发出去就算成功，ack=1：Leader ack，ack=all：leader+follower全部ack），就会进行下一轮的发送，否则重新发送数据；
     producer处理此类故障所采取的提交策略类型：
         1）at-least-once（重复的消息重试写入kafka）；
@@ -46,3 +47,7 @@ Kafka：
         4）生产端消费丢失：调用producer.send(msg, callback)，callback删除redis缓存+重试机制，重试间隔不要太短；
         5）调参解决：发送成功判定ack=all、replication.factor=n指定多个副本写入成功、ack=1，leader写入成功即可、ack=0，消息发出去即可；
     kafka 0.10版本以后，生产者把消息先写入缓存，另起Sender线程从缓存里面批量取消息（可设置大小，如果一直达不到设置大小，定时发送），然后批量发送；
+    Kafka判断一个节点是否活着有两个条件：
+        1）节点必须可以维护和ZooKeeper的连接，Zookeeper通过心跳机制检查每个节点的连接；
+        2）如果节点是个follower,他必须能及时的同步leader的写操作，延时不能太久；
+    Leader节点会追踪所有同步节点状态，一旦延时太久，Leader就会把节点移除；
