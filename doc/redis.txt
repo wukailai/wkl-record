@@ -94,3 +94,8 @@ redis列表实现消息队列
     1）阻塞方式：blPop/brPop阻塞式读取第一个/最后一个元素；
     2）非阻塞方式：lPop/rPop非阻塞式读取第一个/最后一个元素；
     3）Push替代Pop，添加元素；
+redis实现并发变量修改：
+    1）incr、incrby（可指定相加数量）；
+    2）decr（可保证秒杀系统不超卖）、decrby（可指定相减数量）；
+redis QPS：100000（可借助redis实现库存锁定，库存定时刷新到实体表中）；
+mysql QPS：1000；
