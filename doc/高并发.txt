@@ -28,3 +28,5 @@ Reactor模式：
 线程池动态改变核心线程数方法：setCorePoolSize（新值覆盖当前核心线程数），有以下几种情况：
     1）新值小于当前线程数，在线程idle时回收线程；
     2）新值大于当前线程数，创建新worker；
+ThreadLocal应用场景：数据库连接对象Connection（非线程安全），保证Java多线程程序访问和数据库数据一致性问题，不同线程获取的connection对象不相同；
+ThreadLocal在调用get()、set()、remove()方法时都会清理掉key为null的记录；
