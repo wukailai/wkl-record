@@ -40,3 +40,5 @@ cpu高可能的原因：
     2）频繁的GC，特别是full GC；
     3）慢查询、大事务；
     4）高CPU操作频繁；
+DelayQueue是一个BlockingQueue（无界阻塞）队列，队列元素实现Delayed接口，它本质就是封装了一个PriorityQueue（优先队列），在向DelayQueue队列中添加元素时，
+会给元素一个Delay（延迟时间）作为排序条件，队列中最小的元素会优先放在队首，队列中的元素只有到了Delay时间才允许从队列中取出；
