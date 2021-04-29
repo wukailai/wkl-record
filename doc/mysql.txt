@@ -173,6 +173,7 @@ mvcc read view：
     1、slow_query_log 慢查询开启状态
     2、slow_query_log_file 慢查询日志存放的位置（这个目录需要MySQL的运行帐号的可写权限，一般设置为MySQL的数据存放目录）
     3、long_query_time 查询超过多少秒才记录
+    4、查询方式：show variables like "%slow_query_log%";
 查看mysql锁效率：show status like "innodb_row_lock%"；
 产生主从延时原因：从服务器IO线程、SQL线程都是单线程，有较大DDL、DML（比如执行时间10分钟）SQL单线程执行就会造成主从延时；
 产生主从延时解决方案：从服务器sync_binlog设置为0，甚至关闭binlog；
