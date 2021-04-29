@@ -8,8 +8,13 @@ top：显示进程资源占用情况；
 free：显示内存使用情况；
 top -H -p pid：查看进程的所有线程占用内存和CPU情况；
 将线程id转换成16进制的数，然后执行jstack pid | grep 'nid' -C5
-jstat -gc pid (采样间隔，单位毫秒，选填)查看进程GC状态；
+jstat -gc/-gcutil（查看使用占比） pid (采样间隔，单位毫秒，选填)查看进程GC状态；
 jmap导出dump文件：jmap -dump:format=b,file=filename pid
 查看类占用空间：jmap -histo pid
+    1）[C <=> char[]、[I <=> int[];
+    2）[Ljava.lang.String <=> String[]、[Ljava.lang.Object <=> Object[];
 查看堆内存使用情况：jmap -heap pid
 堆外内存溢出往往是和NIO的使用相关；
+linux终端做进制转换：printf "%x\n" 24；
+jstack线程状态枚举：NEW、Runnable、Running、waiting（join、wait）、time_waiting（sleep、join(long)、wait(long)）、blocked（ReentrantLock、synchronized）、Dead；
+jstack tid：jvm线程id、nid：tid映射的操作系统中的线程id；
