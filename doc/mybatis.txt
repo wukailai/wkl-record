@@ -9,7 +9,7 @@ mybatis二级缓存：
     1）xml mapper文件id一样；
     2）预编译sql一样；
     3）参数一样；
-缓存原理：以以上三个要素组成联合主键，查询结果为value缓存在hashmap里面；
+缓存原理：以上三个要素组成联合主键，查询结果为value缓存在hashmap里面；
 遇到修改语句，如update、insert、delete，则会清空缓存；
 缓存数据结构：CachingExecutor和Executor都在sqlSession中
                 CachingExecutor   ->      Executor
