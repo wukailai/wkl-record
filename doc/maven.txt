@@ -1,1 +1,2 @@
 mvn clean package -Dmaven.test.skip=true
+mvn的pom文件如果指定了parent，那么当前项目就对parent有依赖；
