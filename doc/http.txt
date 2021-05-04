@@ -1,8 +1,8 @@
 大量的close_wait可能会导致端口被大量占用（TCP端口上限65535）；
 close_wait作用：ACK重发；
 服务器端主动关闭tcp连接的情况：http头部的connection参数为false，而不是keep-alive；
-反向代理：VPN，代理的是客户端；正向代理：Nginx，代理的是服务器；
-方向代理Ngnix作用：1）负载均衡；2）安全控制；3）缓存静态文件；
+正向代理：VPN，代理的是客户端；反向代理：Nginx，代理的是服务器；
+反向代理Ngnix作用：1）负载均衡；2）安全控制；3）缓存静态文件；
 服务器在HTTP头里设置sessionId，客户端则将sessionId保存在cookie里面；
 分布式系统session保存方案：session存放在redis中；
 差错检测两种实现：1）奇偶校验；2）循环冗余校验；

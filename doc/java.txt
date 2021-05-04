@@ -1,4 +1,4 @@
-join：等待调用方执行完；
+join：等待调用方执行完：主线程中调用t.join，主线程会等待t线程先执行完；
 注解不能被继承的；
 CompletableFuture实现了CompletionStage接口（代表一个特定的计算阶段）和Future接口；
 CompletableFuture cf = CompletableFuture.runAsync(() -> {
@@ -21,7 +21,7 @@ a = 1000, b = 1000, a == b返回false。Integer a = 100 <=> Integer a = Integer.
 Function.apply(参数)执行方法操作；例子：Function function = Integer::parseInt int i = function.apply("123");
 Optional处理null方式：如果对象为空，返回一个单例空Optional对象；
 java.lang.OutOfMemoryError: unable to create new native thread：线程数过多，线程占用的是非JVM内存，
-    1）所有在总内存一定的情况下，减小JVM内存分配可以解决这个问题；
+    1）在总内存一定的情况下，减小JVM内存分配可以解决这个问题；
     2）XSS参数调整单个线程占用内存大小；
 大对象：由-XX:PretenureSizeThreshold启动参数控制，若对象大小大于此值，就会绕过新生代，直接在老年代中分配；
 stream优势：并行stream（非线程安全）具有效率优势；
