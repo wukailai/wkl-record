@@ -46,3 +46,14 @@ set、list转数组：
     Integer[] arr = set.toArray(new Integer[set.size()])  --正确
     int[] arr = set.toArray(new int[set.size()])  --错误
     原因：java范型不支持基础类型；
+copyOnWrite：写的时候复制一份，写完引用指向新对象，这样不会阻塞读操作，写操作会通过ReentrantLock加锁；
+LinkedList：底层双向的循环链表；
+CountDownLatch做减法，CyclicBarrier做加法；
+java阻塞队列API：
+    方法\处理方式	    抛出异常	    返回特殊值	  一直阻塞	   超时退出
+    插入方法	        add(e)	    offer(e)	  put(e)	   offer(e,time,unit)
+    移除方法	        remove()	poll()	      take()	   poll(time,unit)
+    检查方法	        element()	peek()	      不可用	       不可用
+synchronized和ReentrantLock区别：
+    synchronized不可响应中断，非公平锁；
+    ReentrantLock有响应中断的方法lockInterruptibly()，可以指定非公平锁和公平锁；

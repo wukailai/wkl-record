@@ -77,7 +77,7 @@ redis大key解决方案：
         b）对象拆分存入hash；
     2）集合（hash、set、zset、list）元素过多：
         a）rehash，newHashKey=hashKey + (hash(field) % 10000）；
-redis事务实现：multi开始事务，exec执行事务；
+redis事务实现：multi开始事务，exec执行事务，discard取消事务；
 redis string底层数据结构：动态字符串；
 redis list底层数据结构：链表；
 redis zset底层数据结构：跳表或者ziplist（数量小于128）；
