@@ -30,7 +30,7 @@ redis快速恢复：master-slave+哨兵模式，恢复好坏取决于提升maste
 主观下线：一个哨兵节点发送心跳消息在规定时间范围内没有响应；客观下线：一组哨兵共同判断某个节点在规定时间范围内没有响应；
 选举哨兵领导者，哨兵领导者发起并负责故障恢复；
 从slave选举master优先级：slave-priority配置（数值越小越优先） -> 数据完整性 -> runid较小者进行选择；
-redis的zset是一个有序集合，每一个元素(member)都关联了一个score,通过score排序来取集合中的值；
+redis的zset是一个有序集合，每一个元素(member)都关联了一个score，通过score排序来取集合中的值；
 Redis不能确保key在指定时间被删除；
 Redis过期监听：超时失效key的监听触发，可用于实现延时事件；
 Redis实例默认建立了16个db，Redis集群下只有db0，不支持多db；
@@ -68,7 +68,7 @@ redis单线程：一个线程处理所有的网络请求；
 redis主从复制：
     1）全量同步：slave初始化阶段，slave向master发送SYNC命令，master执行BGSAVE命令生成RDB文件并记录所有写命令到缓存，RDB同步+缓存写命令同步；
     2）增量同步：slave正常工作后，主服务器每执行一个写命令就会向从服务器发送相同的写命令；
-redis大key解决方案：
+redis大key带来的问题：
     1）读写超时；
     2）删除或者自动过期时，出现qps突降或者突升的情况，极端情况下，会造成主从复制异常；
 redis大key解决方案：
@@ -87,8 +87,6 @@ redis管道技术可以在服务端未响应时，客户端可以继续向服务
 redis热key：
     1）jvm二级缓存；
     2）热key备份，key在多个redis上都存一份不就好了，减小单台服务器压力；
-redis zset底层跳表不同点？
-redis lru具体实现？
 rdb持久化：fork子进程定时执行，写入二进制文件，属于快照数据，RDB可能会丢数据；
 redis列表实现消息队列
     1）阻塞方式：blPop/brPop阻塞式读取第一个/最后一个元素；
