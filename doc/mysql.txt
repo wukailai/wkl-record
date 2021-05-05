@@ -168,7 +168,15 @@ explain查询结果分析：
 mvcc read view：
     1、m_ids:所有未提交事务id的集合；
     2、最小事务id；
-    3、最大事务id；
+    3、查询时当前最大事务id；
+undo log：
+    1、回滚指针；
+    2、产生undo log的事务id；
+两个隐藏列：事务id和roll_point（回滚指针，形成undo log版本列表）；
+read view判断标准：
+    1、undo log事务id大于等于read view最小事务id && 小于等于read view最大事务id；
+    2、undo log事务id不在read view未提交事务id的集合中；
+读已提交和可重复读区别：可重复度每次都是使用第一次读生成的read view，读已提交每次读都产生新的read view；
 慢日志查，通过2定位到的日志去cat：
     1、slow_query_log 慢查询开启状态
     2、slow_query_log_file 慢查询日志存放的位置（这个目录需要MySQL的运行帐号的可写权限，一般设置为MySQL的数据存放目录）
