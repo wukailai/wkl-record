@@ -47,7 +47,7 @@ set、list转数组：
     int[] arr = set.toArray(new int[set.size()])  --错误
     原因：java范型不支持基础类型；
 copyOnWrite：写的时候复制一份，写完引用指向新对象，这样不会阻塞读操作，写操作会通过ReentrantLock加锁；
-LinkedList：底层双向的循环链表；
+LinkedList：底层双向链表；
 CountDownLatch做减法，CyclicBarrier做加法；
 java阻塞队列API：
     方法\处理方式	    抛出异常	    返回特殊值	  一直阻塞	   超时退出
