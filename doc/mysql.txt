@@ -178,13 +178,18 @@ read view判断标准：
     2、undo log事务id不在read view未提交事务id的集合中；
 读已提交和可重复读区别：可重复度每次都是使用第一次读生成的read view，读已提交每次读都产生新的read view；
 慢日志查，通过2定位到的日志去cat：
-    1、slow_query_log 慢查询开启状态
-    2、slow_query_log_file 慢查询日志存放的位置（这个目录需要MySQL的运行帐号的可写权限，一般设置为MySQL的数据存放目录）
-    3、long_query_time 查询超过多少秒才记录
-    4、查询方式：show variables like "%slow_query_log%";
+    1、slow_query_log 慢查询开启状态；
+    2、slow_query_log_file 慢查询日志存放的位置（这个目录需要MySQL的运行帐号的可写权限，一般设置为MySQL的数据存放目录）；
+    3、long_query_time 查询超过多少秒才记录；
+    4、查询方式：show variables like "%slow_query_log%"；
 查看mysql锁效率：show status like "innodb_row_lock%"；
 产生主从延时原因：从服务器IO线程、SQL线程都是单线程，有较大DDL、DML（比如执行时间10分钟）SQL单线程执行就会造成主从延时；
 产生主从延时解决方案：从服务器sync_binlog设置为0，甚至关闭binlog；
 sync_binlog：
     1）为0，FileSystem自行决定binlog_cache刷入磁盘；
     2）为n（n=1效率最高），每进行n次事务提交之后，binlog_cache刷入磁盘；
+undo log什么时候被删除：
+    insert产生的undo log：事务提交时删除；
+    update、delete产生的undo log因为要供mvcc使用，所以由purge线程（后台线程，致力于innodb清理，资源回收操作）删除；
+binlog是在事务commit后一次性写入（sync_binlog），而redo log在事务执行过程中就会写入；
+innodb通过force log at commit机制实现事务的持久性，即在事务提交的时候，必须先将该事务的所有事务日志写入到磁盘上的redo log file和undo log file中进行持久化；
