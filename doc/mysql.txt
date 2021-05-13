@@ -193,3 +193,7 @@ undo log什么时候被删除：
     update、delete产生的undo log因为要供mvcc使用，所以由purge线程（后台线程，致力于innodb清理，资源回收操作）删除；
 binlog是在事务commit后一次性写入（sync_binlog），而redo log在事务执行过程中就会写入；
 innodb通过force log at commit机制实现事务的持久性，即在事务提交的时候，必须先将该事务的所有事务日志写入到磁盘上的redo log file和undo log file中进行持久化；
+事务一致性理解：事务查看数据，要么是另一个事务修改之前的状态，要么是另一个事务修改之后的状态，不会看到数据中间状态；
+事务隔离性：数据库锁实现
+事务原子性、一致性：undo log
+事务持久性：binlog、redo log；
