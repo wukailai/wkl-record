@@ -97,3 +97,4 @@ AutoWired注解标注位置：
     d）参数，一般来说AutoWired注解可以省略；
 把spring底层组件XXX（如ApplicationContext、BeanFactory）注入到bean中，实现XXXAware接口即可，如ApplicationContextAware、BeanFactoryAware、BeanNameAware、EnvironmentAware；
 XXXAware实现原理：通过XXXAwareProcessor实现，这些Processor都实现了BeanPostProcessor；
+@Profile表示不同环境，一般修饰配置类；
