@@ -54,6 +54,9 @@ SpringBootApplication：
     ComponentScan
 aop三种模式：运行时织入、编译时织入、类加载时织入；
 aop三种模式：运行时织入、编译时织入、类加载时织入；
+依赖注入实现Bean属性设置；
+使用@PropertySource注解读取properties文件，一般用来修饰配置类（就是Configuration标注的类）；
+properties文件里面的内容读取方式，1）AnnotationConfigApplicationContext.getEnvironment；2）environment.getProperty(key)；
 常见的ioc容器实现类：ClassPathXmlApplicationContext、AnnotationConfigApplicationContext；
 @Import(A.class、ImportSelector的实现类.class（批量注册）、ImportBeanDefinitionRegistry实现类.class（手动注册）)修饰在Configure类上面，直接向ioc容器注册组件；
 使用FactoryBean（实现了getObject方法）实现类注册对象，实际上注册的是getObject返回的对象；
@@ -64,3 +67,33 @@ scope如果设置为singleton，ioc容器（AnnotationConfigApplicationContext�
 scope如果设置为singleton，如果指定@Lazy，ioc容器（AnnotationConfigApplicationContext）获取对象时创建对象；
 scope如果设置为prototype，ioc容器（AnnotationConfigApplicationContext）获取对象时创建对象；
 BeanDefinitionRegistry：所有的类都在这个类里面定义；
+容器管理bean的生命周期：
+    1）initMethod和destroyMethod在@Bean注解里面指定：
+        a）如果是单例，initMethod在ioc容器启动创建对象后调用，destroyMethod在容器销毁时调用；
+        b）如果是prototype，initMethod在获取对象创建对象后调用，destroyMethod容器不再调用了；
+    2）Bean实现InitializingBean（afterPropertiesSet方法）接口和DisposableBean（destroy方法）接口：
+    3）PostConstruct注解、preDestroy注解，二者均标注在方法上面；
+    4）Bean实现BeanPostProcessor接口，接口包含初始化前后两个方法postProcessBeforeInitialization、postProcessAfterInitialization；
+属性赋值：
+    1）@Value注解，举例@Value("zhangsan")、@Value("#{表达式}")、@Value("$变量")；
+自动装配：
+    1）AutoWired注解：可以标注在属性、构造器、方法、参数四种位置；
+        a）设置的对象为applicationContext.getBean(A.class)，AutoWired找到多个组件，用组件id去容器里面查找，@qualifier明确指定组件id，否则默认变量名；
+        b）多个Bean时，@Primary可以指定Bean的优先级；
+        c）AutoWired(required=false)，即使没有注入，返回null，不会报错；
+        d）spring定义；
+    2）Resource注解：
+        a）不能和@Primary联合使用；
+        b）可以在Resource指定name属性；
+        c）java规范；
+    3）Inject注解：
+        a）和AutoWired功能一样，需要额外倒入包；
+        b）java规范；
+    4）上述1）、2）、3）均由AutoWiredAnnotationBeanPostProcessor后置处理器解析完成自定装配；
+AutoWired注解标注位置：
+    a）属性：
+    b）方法：spring创建当前对象时调用被标注的方法实现，方法里面的参数从容器里面获取；
+    c）构造器：默认调用无参构造器，在构造器上标注则说明需要调用有参构造器，参数同样从容器中获取（如果只有一个有参构造器，AutoWired注解可以省略）；
+    d）参数，一般来说AutoWired注解可以省略；
+把spring底层组件XXX（如ApplicationContext、BeanFactory）注入到bean中，实现XXXAware接口即可，如ApplicationContextAware、BeanFactoryAware、BeanNameAware、EnvironmentAware；
+XXXAware实现原理：通过XXXAwareProcessor实现，这些Processor都实现了BeanPostProcessor；
