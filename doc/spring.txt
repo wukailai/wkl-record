@@ -54,3 +54,13 @@ SpringBootApplication：
     ComponentScan
 aop三种模式：运行时织入、编译时织入、类加载时织入；
 aop三种模式：运行时织入、编译时织入、类加载时织入；
+常见的ioc容器实现类：ClassPathXmlApplicationContext、AnnotationConfigApplicationContext；
+@Import(A.class、ImportSelector的实现类.class（批量注册）、ImportBeanDefinitionRegistry实现类.class（手动注册）)修饰在Configure类上面，直接向ioc容器注册组件；
+使用FactoryBean（实现了getObject方法）实现类注册对象，实际上注册的是getObject返回的对象；
+@ComponentScan:在Configure类里面定义扫描范围（扫描范围：@Controller、@Service、@Component、@Repository）；
+@scope定义作用范围：singleton（默认）、prototype、request、session；
+@Conditional选择性将组件注入ioc容器；
+scope如果设置为singleton，ioc容器（AnnotationConfigApplicationContext）启动时创建对象；
+scope如果设置为singleton，如果指定@Lazy，ioc容器（AnnotationConfigApplicationContext）获取对象时创建对象；
+scope如果设置为prototype，ioc容器（AnnotationConfigApplicationContext）获取对象时创建对象；
+BeanDefinitionRegistry：所有的类都在这个类里面定义；
