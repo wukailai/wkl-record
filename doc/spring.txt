@@ -78,7 +78,7 @@ BeanDefinitionRegistry：所有的类都在这个类里面定义；
     1）@Value注解，举例@Value("zhangsan")、@Value("#{表达式}")、@Value("$变量")；
 自动装配：
     1）AutoWired注解：可以标注在属性、构造器、方法、参数四种位置；
-        a）设置的对象为applicationContext.getBean(A.class)，AutoWired找到多个组件，用组件id去容器里面查找，@qualifier明确指定组件id，否则默认变量名；
+        a）设置的对象为applicationContext.getBean(A.class)，AutoWired找到多个组件，用组件id去容器里面查找，@Qualifier明确指定组件id，否则默认变量名；
         b）多个Bean时，@Primary可以指定Bean的优先级；
         c）AutoWired(required=false)，即使没有注入，返回null，不会报错；
         d）spring定义；
