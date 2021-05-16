@@ -115,11 +115,13 @@ aop：
     7）对于返回通知，注解指定returning=形参名，方法形参Object 形参名；
     8）对于异常通知，注解指定Throwing=形参名，方法形参Exception 形参名；
     9）动态代理cglib实现；
+    10）aop之后是原对象的代理对象；
 声明式事务：
     1）@Transactional，标注在方法上；
     2）@EnableTransactionManagement，标注在配置类上：开启基于事务注解的事务管理功能，否则@Transactional不会生效。原理：基于事务拦截器TransactionInterceptor实现；
     3）定义管理数据源的事务管理器；
     4）1）、2）、3）缺一不可；
+    5）可以在Transactional里面定义事务隔离级别；
 两个后置处理器：
     1）BeanPostProcessor，bean后置处理器，创建创建对象初始化前后调用；
     2）BeanFactoryPostProcessor，bean factory后置处理器，调用时机为bean factory标准初始化（bean定义加载到bean factory，但是bean factory未创建实例）之后调用，只有一个方法；
@@ -127,3 +129,16 @@ spring注解实现原理：
     1）@Controller、@Service、@Component、@Repository，通过配置的扫描规则自动注入到ioc容器；
     2）@AutoWired、@Value，利用bean后置处理器BeanPostProcessor实现，如AutowiredAnnotationBeanPostProcessor；
     3）通过反射来获取相应的注解信息，然后做相应的处理；
+spring生命周期：
+    1）构造器创建对象，BeanDefinition注册到BeanFactory，调用BeanFactory的createBean创建对象；
+    2）@PostConstructor；
+    3）属性填充；
+    4）是否实现了XXXAware（如BeanNameAware、BeanFactoryNameAware）接口，实例了则会执行相应的set方法，如BeanNameAware的setBeanName，BeanFactoryNameAware的setBeanFactoryName；
+    5）InitializingBean的afterPropertiesSet方法；
+    6）postProcessBeforeInitialization；
+    7）initMethod初始化；
+    8）postProcessAfterInitialization；
+    9）AOP对象变成了代理对象；
+    10）使用，如果是单例，加入单例池，底层数据结构ConcurrentHashMap；
+    11）@PreDestroy；
+    12）destroyMethod；
