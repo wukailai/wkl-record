@@ -98,3 +98,24 @@ AutoWired注解标注位置：
 把spring底层组件XXX（如ApplicationContext、BeanFactory）注入到bean中，实现XXXAware接口即可，如ApplicationContextAware、BeanFactoryAware、BeanNameAware、EnvironmentAware；
 XXXAware实现原理：通过XXXAwareProcessor实现，这些Processor都实现了BeanPostProcessor；
 @Profile表示不同环境，一般修饰配置类；
+aop：
+    1）定义：程序运行期间，动态地将某段代码切入到指定方法、指定位置进行运行的编程方式；
+    2）实现方式：动态代理；
+    3）通知方法：
+        a）前置通知（目标方法运行前，@Before）；
+        b）后置通知（目标方法运行结束（无论正常结束还是异常结束）后，@After）；
+        c）返回通知（@AfterReturning）；
+        d）异常通知（@AfterThrowing）；
+        e）环绕通知（@Around）；
+    3）@PointCut定义统一切入点，这样每个通知不用写复杂的切入点方法信息；
+    4）@Aspect标注切面类；
+    5）@EnableAspectJAutoProxy标注被代理的类；
+    6）对于所有通知，通知方法形参传JoinPoint，可以拿到被代理对象相关信息，但是必须放在第一个参数；
+    7）对于返回通知，注解指定returning=形参名，方法形参Object 形参名；
+    8）对于异常通知，注解指定Throwing=形参名，方法形参Exception 形参名；
+    9）动态代理cglib实现；
+声明式事务：
+    1）@Transactional，标注在方法上；
+    2）@EnableTransactionManagement，标注在配置类上：开启基于事务注解的事务管理功能，否则@Transactional不会生效。原理：基于事务拦截器TransactionInterceptor实现；
+    3）定义管理数据源的事务管理器；
+    4）1）、2）、3）缺一不可；
