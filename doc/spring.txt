@@ -66,6 +66,7 @@ properties文件里面的内容读取方式，1）AnnotationConfigApplicationCon
 scope如果设置为singleton，ioc容器（AnnotationConfigApplicationContext）启动时创建对象；
 scope如果设置为singleton，如果指定@Lazy，ioc容器（AnnotationConfigApplicationContext）获取对象时创建对象；
 scope如果设置为prototype，ioc容器（AnnotationConfigApplicationContext）获取对象时创建对象；
+BeanDefinition可以描述spring bean当中的scope、lazy，以及属性和方法等等其他信息；
 BeanDefinitionRegistry：所有的类都在这个类里面定义；
 容器管理bean的生命周期：
     1）initMethod和destroyMethod在@Bean注解里面指定：
@@ -100,7 +101,7 @@ XXXAware实现原理：通过XXXAwareProcessor实现，这些Processor都实现�
 @Profile表示不同环境，一般修饰配置类；
 aop：
     1）定义：程序运行期间，动态地将某段代码切入到指定方法、指定位置进行运行的编程方式；
-    2）实现方式：动态代理；
+    2）实现方式：动态代理（cglib实现）；
     3）通知方法：
         a）前置通知（目标方法运行前，@Before）；
         b）后置通知（目标方法运行结束（无论正常结束还是异常结束）后，@After）；
@@ -122,3 +123,7 @@ aop：
 两个后置处理器：
     1）BeanPostProcessor，bean后置处理器，创建创建对象初始化前后调用；
     2）BeanFactoryPostProcessor，bean factory后置处理器，调用时机为bean factory标准初始化（bean定义加载到bean factory，但是bean factory未创建实例）之后调用，只有一个方法；
+spring注解实现原理：
+    1）@Controller、@Service、@Component、@Repository，通过配置的扫描规则自动注入到ioc容器；
+    2）@AutoWired、@Value，利用bean后置处理器BeanPostProcessor实现，如AutowiredAnnotationBeanPostProcessor；
+    3）通过反射来获取相应的注解信息，然后做相应的处理；
