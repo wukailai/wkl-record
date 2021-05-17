@@ -14,10 +14,10 @@ spring boot优点：
     2）提供默认配置简化项目配置；
     3）内嵌式容器简化Web项目；
     4）没有冗余代码生成和XML配置的要求；
-@SpringBootApplication=@Configuration & @EnableAutoConfiguration & @ComponentScan只能扫描启动类同包或子包的Bean；
+@SpringBootApplication=@SpringBootConfiguration & @EnableAutoConfiguration & @ComponentScan只能扫描启动类同包或子包的Bean；
 Spring如何实现AOP？
 AnnotationAwareAspectJAutoProxyCreator是AOP核心处理类
-AnnotationAwareAspectJAutoProxyCreator实现了BeanProcessor，其中postProcessAfterInitialization是核心方法；
+AnnotationAwareAspectJAutoProxyCreator实现了BeanPostProcessor，其中postProcessAfterInitialization是核心方法；
 核心实现分为2步：
     1）getAdvicesAndAdvisorsForBean获取当前bean匹配的增强器；
     2）createProxy为当前bean创建代理；
@@ -53,7 +53,6 @@ SpringBootApplication：
     EnableAutoConfiguration
     ComponentScan
 aop三种模式：运行时织入、编译时织入、类加载时织入；
-aop三种模式：运行时织入、编译时织入、类加载时织入；
 依赖注入实现Bean属性设置；
 使用@PropertySource注解读取properties文件，一般用来修饰配置类（就是Configuration标注的类）；
 properties文件里面的内容读取方式，1）AnnotationConfigApplicationContext.getEnvironment；2）environment.getProperty(key)；
@@ -61,7 +60,7 @@ properties文件里面的内容读取方式，1）AnnotationConfigApplicationCon
 @Import(A.class、ImportSelector的实现类.class（批量注册）、ImportBeanDefinitionRegistry实现类.class（手动注册）)修饰在Configure类上面，直接向ioc容器注册组件；
 使用FactoryBean（实现了getObject方法）实现类注册对象，实际上注册的是getObject返回的对象；
 @ComponentScan:在Configure类里面定义扫描范围（扫描范围：@Controller、@Service、@Component、@Repository）；
-@scope定义作用范围：singleton（默认）、prototype、request、session；
+@scope定义作用范围：singleton（默认）、prototype、request、session、global session；
 @Conditional选择性将组件注入ioc容器；
 scope如果设置为singleton，ioc容器（AnnotationConfigApplicationContext）启动时创建对象；
 scope如果设置为singleton，如果指定@Lazy，ioc容器（AnnotationConfigApplicationContext）获取对象时创建对象；
@@ -101,7 +100,7 @@ XXXAware实现原理：通过XXXAwareProcessor实现，这些Processor都实现�
 @Profile表示不同环境，一般修饰配置类；
 aop：
     1）定义：程序运行期间，动态地将某段代码切入到指定方法、指定位置进行运行的编程方式；
-    2）实现方式：动态代理（cglib实现）；
+    2）实现方式：动态代理；
     3）通知方法：
         a）前置通知（目标方法运行前，@Before）；
         b）后置通知（目标方法运行结束（无论正常结束还是异常结束）后，@After）；
@@ -121,7 +120,7 @@ aop：
     2）@EnableTransactionManagement，标注在配置类上：开启基于事务注解的事务管理功能，否则@Transactional不会生效。原理：基于事务拦截器TransactionInterceptor实现；
     3）定义管理数据源的事务管理器；
     4）1）、2）、3）缺一不可；
-    5）可以在Transactional里面定义事务隔离级别；
+    5）可以在Transactional里面定义事务隔离级别（propagation）、定义超时回滚（timeout），定义哪些异常需要回滚事务（rollbackFor）；
 两个后置处理器：
     1）BeanPostProcessor，bean后置处理器，创建创建对象初始化前后调用；
     2）BeanFactoryPostProcessor，bean factory后置处理器，调用时机为bean factory标准初始化（bean定义加载到bean factory，但是bean factory未创建实例）之后调用，只有一个方法；
@@ -140,5 +139,6 @@ spring生命周期：
     8）postProcessAfterInitialization；
     9）AOP对象变成了代理对象；
     10）使用，如果是单例，加入单例池，底层数据结构ConcurrentHashMap；
-    11）@PreDestroy；
-    12）destroyMethod；
+    11）DisposableBean的destroy方法；
+    12）@PreDestroy；
+    13）destroyMethod；
