@@ -1,0 +1,21 @@
+影响rpc框架性能两大因素：1）通信连接；2）序列化和反序列化；
+dubbo几大特性：
+    1）面向接口代理的rpc调用，屏蔽调用细节；
+    2）智能负载均衡，通过注册中心实现；
+    3）服务自动注册与发现；
+    4）高度可扩展；
+    5）运行期流量调度，实现灰度发布；
+    6）可视化的服务治理与运维；
+dubbo几大组件：
+    1）Registry，注册中心；
+    2）Provider，服务提供者；
+    3）Consumer，服务调用者；
+    4）Container，dubbo框架容器；
+    5）Monitor，监控中心，监控Provider和Consumer；
+dubbo启动步骤：
+    1）容器启动；
+    2）Provider启动，Provider将所提供的服务信息注册到注册中心；
+    3）Consumer启动，Consumer从注册中心订阅需要调用的服务；
+    4）Provider和Consumer有变动，注册中心实时通知；
+    5）Consumer先从注册中心拿到调用服务信息，然后执行rpc调用操作；
+    6）Consumer、Provider定时将信息同步到Monitor；
