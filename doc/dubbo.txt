@@ -7,11 +7,11 @@ dubbo几大特性：
     5）运行期流量调度，实现灰度发布；
     6）可视化的服务治理与运维；
 dubbo几大组件：
-    1）Registry，注册中心；
+    1）Registry，注册中心，推荐zookeeper实现；
     2）Provider，服务提供者；
     3）Consumer，服务调用者；
     4）Container，dubbo框架容器；
-    5）Monitor，监控中心，监控Provider和Consumer；
+    5）Monitor，监控中心，监控Provider和Consumer，非必须；
 dubbo启动步骤：
     1）容器启动；
     2）Provider启动，Provider将所提供的服务信息注册到注册中心；
@@ -19,3 +19,32 @@ dubbo启动步骤：
     4）Provider和Consumer有变动，注册中心实时通知；
     5）Consumer先从注册中心拿到调用服务信息，然后执行rpc调用操作；
     6）Consumer、Provider定时将信息同步到Monitor；
+dubbo @Service注解修饰Provider实现类；
+dubbo @Reference注解代替@AtuoWired注解，实现服务自动注入；
+dubbo配置选项：
+    1）启动时检查，提前报错；
+    2）超时设置，rpc超时时间；
+    3）超时次数，rpc重试次数；
+    4）多版本，实现灰度发布，version可指定，如果为*，随机调用版本；
+    5）本地存根，consumer本地实现Stub（实现了Provider接口），一般实现一些aop功能；
+dubbo高可用：
+    1）注册中心实例全部宕机后，Provider和Consumer仍然可以通过本地缓存通信；
+    2）Reference注解指定url可以绕过注册中心直接调用Provider；
+    3）负载均衡机制：
+        a）权重随机；
+        b）权重轮询；
+        c）最少活跃数，统计所有实例上一次调用服务耗时，选择最短耗时实例；
+        d）一致性hash；
+    4）服务降级：
+        a）不走远程调用，直接返回空；
+        b）远程调用失败，返回空；
+    5）集群容错：
+        a）重试；
+        b）fail-fast；
+        c）fail-safe，出现异常，直接忽略；
+        d）fail-back，调用失败，定时再调用；
+        e）同时调用多个实例（可指定），选择响应最快的服务，比较耗费性能，运用于实时性要求高的服务；
+        f）调用所有实例，有一台失败就判定失败；
+dubbo rpc调用链：
+client -> client stub(客户端代理) -> network service -> network service -> server stub(服务端代理) -> server；
+dubbo通信框架：netty；

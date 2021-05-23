@@ -57,3 +57,4 @@ java阻塞队列API：
 synchronized和ReentrantLock区别：
     synchronized不可响应中断，非公平锁；
     ReentrantLock有响应中断的方法lockInterruptibly()，可以指定非公平锁和公平锁；
+NIO：selector监控多个channel；

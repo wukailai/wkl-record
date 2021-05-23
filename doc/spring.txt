@@ -142,3 +142,4 @@ spring生命周期：
     11）DisposableBean的destroy方法；
     12）@PreDestroy；
     13）destroyMethod；
+BeanDefinitionParser的parse方法（返回BeanDefinition）解析配置；
