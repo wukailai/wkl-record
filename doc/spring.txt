@@ -8,7 +8,7 @@ spring validate支持分组检验（groups={xx.class}，方法层也标注@Valid
 @ExceptionHandler：可以用来通过一处理方法抛出来的异常；
 可以通过命令行、启动Application加注解的方式改变默认配置文件配置；
 Spring框架的事务基础架构代码将默认地只在抛出Error或者unchecked exceptions时才标识事务回滚；
-@Transactional：使用在具体的类上，而不是接口上；
+@Transactional：可以用在类上或者实现方法上；
 spring boot优点：
     1）快速入门；
     2）提供默认配置简化项目配置；
