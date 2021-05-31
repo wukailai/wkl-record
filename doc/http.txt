@@ -33,3 +33,7 @@ JWT = HEADER（记录元数据信息，如签名算法、令牌类型） + PAYLO
 利用根证书（一般浏览器内置）对证书进行校验；
 cookie无法跨域；
 tomcat用多个不同的自定义类加载器加载不同的web项目，打破了双亲委派；
+跨域三种解决方式：
+    1）配置类（@Configuration修饰的类）实现WebMvcConfigurer接口，全局生效；
+    2）配置类（@Configuration、@WebFilter(filterName = "CorsFilter ")修饰的类）实现Filter接口，全局生效；
+    3）@CrossOrigin注解：示例@CrossOrigin(origins = "http://localhost:4000")，单个请求生效；
