@@ -1,4 +1,5 @@
 spark：基于内存计算的大数据并行计算框架，采用DAG执行引擎；
+spark还支持流式计算（spark streaming）、机器学习（MLlib）、图计算（GraphX）；
 spark最大优势：将计算数据、中间结果都存储在内存中，大大减小了IO开销；
 RDD（Resilient Distributed DataSet，弹性分布式数据集）：Spark中最基本的数据抽象；
 每一个RDD包含的数据被存储在系统的不同节点上。逻辑上我们可以将RDD理解成一个大的数组，数组中的每个元素就代表一个分区(Partition)；
@@ -34,3 +35,27 @@ spark在DAG调度中需要对计算过程划分Stage，而划分的依据就是�
     2）宽依赖，也称shuffle依赖，父RDD的每个分区都可能被多个子RDD分区使用，一个子RDD分区通常对应所有的父RDD分区，如groupByKey操作；
 宽依赖需要将同一个父RDD的分区传入到不同的子RDD分区中，窄依赖只需要将一个父RDD的分区传入到一个子RDD分区中，所以如果发生RDD丢失，重新计算时，窄依赖只需要计算父分区RDD，极端情况下，宽依赖需要计算所有父分区RDD；
 groupByKey和reduceByKey的区别：reduceByKey会先在本地做聚合，再移动，最后全局聚合，groupByKey少了第一步，因此reduceByKey效率更高；
+跟hadoop一样，spark的分布式文件系统也是HDFS；
+spark运行流程：
+    1）构建Spark Application的运行环境，启动SparkContext；
+    2）SparkContext向资源管理器（可以是Standalone、Mesos、Yarn）申请运行Executor资源，并启动StandaloneExecutorbackend；
+    3）Executor向SparkContext申请Task；
+    4）SparkContext将应用程序分发给Executor；
+    5）SparkContext构建成DAG图，将DAG图分解成Stage、将Taskset发送给Task Scheduler，最后由Task Scheduler将Task发送给Executor运行；
+    6）Task在Executor上运行，运行完释放所有资源；
+SparkContext：运行在Driver，目的是为了准备Spark应用程序的运行环境，在Spark中有SparkContext负责与ClusterManager通信，
+进行资源申请、任务的分配和监控等，当Executor部分运行完毕后，Driver同时负责将SparkContext关闭，通常用SparkContext代表Driver；
+多个Task组成一个Stage，Task的调度和管理由TaskScheduler负责；
+Job：包含多个Task组成的并行计算，往往由Spark Action触发生成，一个Application中往往会产生多个Job；
+Stage: 每个Job会被拆分成多组Task，作为一个TaskSet，其名称为Stage，Stage的划分和调度是有DAGScheduler来负责的，
+Stage有非最终的Stage（Shuffle Map Stage）和最终的Stage（Result Stage）两种，Stage的边界就是发生shuffle的地方；
+DAG图是基于Stage的，DAGScheduler分配；
+Job=多个stage，Stage=多个同种task, Task分为ShuffleMapTask和ResultTask，Dependency分为ShuffleDependency和NarrowDependency；
+Cluter Manager：指的是在集群上获取资源的外部服务。目前有三种类型：
+    1）Standalone : spark原生的资源管理，由Master负责资源的分配；
+    2）Apache Mesos:与hadoop MR兼容性良好的一种资源调度框架；
+    3）Hadoop Yarn: 主要是指Yarn中的ResourceManager；
+RDD在Spark中运行大概分为以下三步：
+    1）创建RDD对象；
+    2）DAGScheduler模块介入运算，计算RDD之间的依赖关系，RDD之间的依赖关系就形成了DAG；
+    3）每一个Job被分为多个Stage。划分Stage的一个主要依据是当前计算因子的输入是否是确定的，如果是则将其分在同一个Stage，避免多个Stage之间的消息传递开销；
