@@ -2,6 +2,10 @@ spark：基于内存计算的大数据并行计算框架，采用DAG执行引擎
 spark还支持流式计算（spark streaming）、机器学习（MLlib）、图计算（GraphX）；
 spark最大优势：将计算数据、中间结果都存储在内存中，大大减小了IO开销；
 RDD（Resilient Distributed DataSet，弹性分布式数据集）：Spark中最基本的数据抽象；
+RDD两种操作：
+    1）Transformation：filter()、map()、union()等，生成另一个RDD；
+    2）Action：count()、first()、take(n)、collect() 等，促发一个计算并返回值到Master；
+Spark Master/Driver会保存RDD上的Transformations。这样一来，如果某个RDD丢失（也就是salves宕掉），它可以快速和便捷地转换到集群中存活的主机上。这也就是RDD的弹性所在；
 每一个RDD包含的数据被存储在系统的不同节点上。逻辑上我们可以将RDD理解成一个大的数组，数组中的每个元素就代表一个分区(Partition)；
 每个分区指向一个存储在内存或者硬盘中的数据块，这个数据块就是每个task计算出的数据块，它们可以分布在不同的节点上；
 RDD不可变只读；
