@@ -197,3 +197,5 @@ innodb通过force log at commit机制实现事务的持久性，即在事务提�
 事务隔离性：数据库锁实现
 事务原子性、一致性：undo log
 事务持久性：binlog、redo log；
+mysql导数据命令：
+mysql -hc3prc-whalecore.doris.srv -P10000 data_workshop -uwork_shop -pp65dn7mtUTGrneCg --default-character-set=utf8 -e "select 1" >~/wukailai/big_20210519.txt
