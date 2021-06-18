@@ -44,3 +44,4 @@ Namenode有可能成为集群的单点故障，Namenode不可用时，整个文�
     6）客户端close输出流；
 hadoop两个核心模块：分布式存储模块HDFS和分布式计算模块MapReduce；
 Hadoop MR Task分类：MapTask、ReduceTask；
+查看目录文件信息：hadoop --cluster zjyprc-hadoop dfs -du /user/h_data_platform/platform/miuicore | sort -nr
