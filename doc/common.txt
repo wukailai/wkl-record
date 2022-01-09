@@ -1,1 +1,2 @@
 脚本里面转义用单右斜杠；
+卸载cisco命令：sudo /opt/cisco/anyconnect/bin/vpn_uninstall.sh
